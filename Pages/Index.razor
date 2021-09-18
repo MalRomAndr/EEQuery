@@ -1,7 +1,41 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@inject HttpClient Http
 
-Welcome to your new app.
+<section>
+    <h2>Правки в общую БД SmartLine</h2>
+    <button @onclick="Main2">Click me</button>
+    <p>@Text</p>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Дата/пользователь</th>
+                <th scope="col">Марка изделия</th>
+                <th scope="col">Характеристика</th>
+                <th scope="col">Правка</th>
+                <th scope="col">Комментарий пользователя</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Комментарий модератора</th>
+            </tr>
+        </thead>
+        <tbody>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+        </tbody>
+    </table>
+</section>
+
+@code {
+    string Text {get; set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    protected async Task Main2()
+    {
+        IEnumerable<string> allPrompts = new List<string>();
+        allPrompts = await Http.GetFromJsonAsync<IEnumerable<string>>("https://enstooffer.azurewebsites.net/Offer");
+        Text = allPrompts.FirstOrDefault();
+    }
+}
